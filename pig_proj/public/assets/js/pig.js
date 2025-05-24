@@ -188,23 +188,20 @@ function showHistory() {
 
 
 function exportData() {
-  const format = document.getElementById("exportFormat").value; // "json" sau "csv"
-  // Preluăm tot istoricul și filtrăm după sursa aleasă
+  const format = document.getElementById("exportFormat").value; 
   fetch(`${apiBase}/get_history.php`)
     .then(res => res.json())
     .then(rows => {
-      const source = document.getElementById("exportSource").value; // "numbers", "matrix"...
+      const source = document.getElementById("exportSource").value; 
       const filtered = rows.filter(r => r.type === source);
       let blobContent, mime;
       if (format === 'json') {
         blobContent = JSON.stringify(filtered, null, 2);
         mime = 'application/json';
       } else {
-        // simplu CSV: session, type, data_json
         const lines = ['session_id,type,data'];
         filtered.forEach(r => {
           const d = r.values_json || r.value;
-          // scapă ghilimelele
           lines.push(`${r.session_id},${r.type},"${d.toString().replace(/"/g,'""')}"`);
         });
         blobContent = lines.join('\n');

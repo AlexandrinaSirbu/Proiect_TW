@@ -1,5 +1,4 @@
 <?php
-// /pig_proj/public/api/save_string_sequence.php
 require 'config.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
