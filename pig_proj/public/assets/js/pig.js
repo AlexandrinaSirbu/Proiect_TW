@@ -1,3 +1,4 @@
+const apiBase = '/pig_proj/public/api';
 
 let currentUser = null;
 
@@ -138,50 +139,87 @@ function generateGraph() {
 
 function saveToHistory(type, data) {
   if (!currentUser || !currentUser.email) return;
-  const key = `history_${currentUser.email}`;
-  const history = JSON.parse(localStorage.getItem(key) || '[]');
-  history.push({ type, data, timestamp: new Date().toLocaleString() });
-  localStorage.setItem(key, JSON.stringify(history));
+  const payload = {
+    length:      document.getElementById("numLength")?.value,
+    min:         document.getElementById("numMin")?.value,
+    max:         document.getElementById("numMax")?.value,
+    is_sorted:   document.getElementById("numSorted")?.value || 'none',
+    values:      data
+    // pentru celelalte tipuri, adaptează proprietățile din payload
+  };
+  fetch(`${apiBase}/save_${type.toLowerCase().replace(/ /g,'_')}.php`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(resp => {
+    if (!resp.success) console.error('Save error', resp);
+  })
+  .catch(console.error);
 }
+
 
 function showHistory() {
-  if (!currentUser || !currentUser.email) return;
-  const key = `history_${currentUser.email}`;
-  const history = JSON.parse(localStorage.getItem(key) || '[]');
-  const container = document.getElementById("historyList");
-  container.innerHTML = '';
-
-  if (history.length === 0) {
-    container.innerHTML = '<p>Istoricul este gol.</p>';
-    return;
-  }
-
-  const table = document.createElement("table");
-  table.innerHTML = '<tr><th>Tip</th><th>Data</th><th>Valoare</th></tr>';
-  history.forEach(entry => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${entry.type}</td>
-      <td>${entry.timestamp}</td>
-      <td><pre>${JSON.stringify(entry.data)}</pre></td>
-    `;
-    table.appendChild(row);
-  });
-  container.appendChild(table);
+  fetch(`${apiBase}/get_history.php`)
+    .then(res => res.json())
+    .then(rows => {
+      const container = document.getElementById("historyList");
+      container.innerHTML = '';
+      if (!rows.length) {
+        container.innerHTML = '<p>Istoricul este gol.</p>';
+        return;
+      }
+      const table = document.createElement("table");
+      table.innerHTML = '<tr><th>Tip</th><th>Data sesiune</th><th>Date</th></tr>';
+      rows.forEach(r => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${r.type}</td>
+          <td>${new Date(r.session_at).toLocaleString()}</td>
+          <td><pre>${r.values_json || r.value}</pre></td>
+        `;
+        table.appendChild(row);
+      });
+      container.appendChild(table);
+    })
+    .catch(err => console.error(err));
 }
+
 
 function exportData() {
-  const format = document.getElementById("exportFormat").value;
-  const source = document.getElementById("exportSource").value;
-  const data = document.getElementById(source + "Output").innerText;
-  const blob = new Blob(
-    [format === "json" ? JSON.stringify(JSON.parse(data)) : data.replace(/\s+/g, ',')],
-    { type: format === "json" ? "application/json" : "text/csv" }
-  );
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = `export.${format}`;
-  a.click();
+  const format = document.getElementById("exportFormat").value; // "json" sau "csv"
+  // Preluăm tot istoricul și filtrăm după sursa aleasă
+  fetch(`${apiBase}/get_history.php`)
+    .then(res => res.json())
+    .then(rows => {
+      const source = document.getElementById("exportSource").value; // "numbers", "matrix"...
+      const filtered = rows.filter(r => r.type === source);
+      let blobContent, mime;
+      if (format === 'json') {
+        blobContent = JSON.stringify(filtered, null, 2);
+        mime = 'application/json';
+      } else {
+        // simplu CSV: session, type, data_json
+        const lines = ['session_id,type,data'];
+        filtered.forEach(r => {
+          const d = r.values_json || r.value;
+          // scapă ghilimelele
+          lines.push(`${r.session_id},${r.type},"${d.toString().replace(/"/g,'""')}"`);
+        });
+        blobContent = lines.join('\n');
+        mime = 'text/csv';
+      }
+      const blob = new Blob([blobContent], { type: mime });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `export_${source}.${format}`;
+      a.click();
+    })
+    .catch(console.error);
 }
+
+
+
 
 openTab('numbers');
