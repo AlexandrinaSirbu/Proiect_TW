@@ -1,0 +1,8 @@
+RewriteEngine On
+
+# Dacă fișierul/folderul există fizic, nu rescrie
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirecționează tot către index.php
+RewriteRule ^ index.php [QSA,L]
