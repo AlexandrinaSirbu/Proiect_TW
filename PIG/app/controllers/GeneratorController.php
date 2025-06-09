@@ -1,5 +1,4 @@
 <?php
-// app/controllers/GeneratorController.php
 
 class GeneratorController
 {
@@ -42,13 +41,11 @@ class GeneratorController
         echo json_encode($generated);
     }
 
-    // ✅ Nou: formular pentru string (pagina HTML)
     public function string()
     {
         include VIEW . '/generators/string.php';
     }
 
-    // ✅ Nou: AJAX pentru generare șiruri
     public function stringAjax()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -136,5 +133,58 @@ class GeneratorController
         header('Content-Type: application/json');
         echo json_encode($matrix);
     }
+
+    public function graph()
+{
+    include VIEW . '/generators/graph.php';
+}
+
+public function graphAjax()
+{
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code(405);
+        echo json_encode(['error' => 'POST required']);
+        return;
+    }
+
+    $nodes = (int)($_POST['nodes'] ?? 5);
+    $edges = (int)($_POST['edges'] ?? 6);
+    $type = $_POST['type'] ?? 'undirected';
+
+    $graph = [];
+
+    $existingEdges = [];
+
+    while (count($graph) < $edges) {
+        $from = rand(0, $nodes - 1);
+        $to = rand(0, $nodes - 1);
+
+        if ($from === $to) continue; // evită auto-muchii
+
+        // Sortare pentru a evita dubluri (ex: (1,2) == (2,1) la neorientat)
+        $key = $type === 'undirected'
+            ? implode('-', [min($from, $to), max($from, $to)])
+            : "$from-$to";
+
+        if (isset($existingEdges[$key])) continue;
+
+        $existingEdges[$key] = true;
+
+        if ($type === 'weighted') {
+            $weight = rand(1, 10);
+            $graph[] = [$from, $to, $weight];
+        } else {
+            $graph[] = [$from, $to];
+        }
+    }
+
+    if (isset($_SESSION['user_id'])) {
+        require_once MODEL . '/GeneratedInput.php';
+        GeneratedInput::save($_SESSION['user_id'], 'graph', json_encode($graph));
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($graph);
+}
 
 }

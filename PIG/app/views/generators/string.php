@@ -1,6 +1,6 @@
 <?php include VIEW . '/components/header.php'; ?>
 
-<h2>Generator AJAX de Șiruri de caractere</h2>
+<h2>Generator de Șiruri de caractere</h2>
 
 <form id="generateForm">
   <label>Lungime:</label>

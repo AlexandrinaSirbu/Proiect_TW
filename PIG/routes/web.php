@@ -41,6 +41,7 @@ switch ($route) {
     case 'ajax/generate_string':
         (new GeneratorController())->stringAjax();
         break;
+
     case 'generate/matrix':
         (new GeneratorController())->matrix();
         break;
@@ -48,6 +49,15 @@ switch ($route) {
     case 'ajax/generate_matrix':
         (new GeneratorController())->matrixAjax();
         break;
+
+    case 'generate/graph':
+        (new GeneratorController())->graph();
+        break;
+    
+    case 'ajax/generate_graph':
+        (new GeneratorController())->graphAjax();
+        break;
+        
     case 'history':
         if (isset($_SESSION['user_id'])) {
             require_once CTRL . '/DashboardController.php';

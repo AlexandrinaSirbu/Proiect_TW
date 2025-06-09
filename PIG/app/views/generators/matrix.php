@@ -1,6 +1,6 @@
 <?php include VIEW . '/components/header.php'; ?>
 
-<h2>Generator AJAX de Matrici</h2>
+<h2>Generator de Matrici</h2>
 
 <form id="generateForm">
   <label>Rânduri:</label>

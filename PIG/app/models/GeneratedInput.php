@@ -1,5 +1,4 @@
 <?php
-// app/models/GeneratedInput.php
 
 class GeneratedInput
 {

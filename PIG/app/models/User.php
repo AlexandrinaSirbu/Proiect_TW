@@ -1,5 +1,4 @@
 <?php
-// app/models/User.php
 
 class User
 {

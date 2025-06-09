@@ -1,12 +1,10 @@
 <?php
-// app/controllers/DashboardController.php
 
 
 class DashboardController
 {
     public function index()
     {
-        echo "sunt aici";
         if (!isset($_SESSION['user_id'])) {
             header('Location: PIG/public/login');
             exit;
