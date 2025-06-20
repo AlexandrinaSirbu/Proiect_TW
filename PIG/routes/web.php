@@ -1,7 +1,7 @@
 <?php
-// Automat detectează unde e plasat proiectul
 $basePath = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
 $route = trim(substr($requestUri, strlen($basePath)), '/');
 
 switch ($route) {
@@ -74,6 +74,11 @@ switch ($route) {
         $controller = new ExportController();
         $controller->export();
         break;
+    case 'docs/doc':
+        require_once CTRL . '/DocsController.php';
+        (new DocsController())->doc();
+        break;
+        
 
     default:
         http_response_code(404);

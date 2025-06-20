@@ -4,7 +4,6 @@
     <h2>Generator de Șiruri de caractere</h2>
 
     <form id="generateForm" class="string-generator-form">
-        <!-- Rândul de sus: 3 inputuri egale -->
         <div class="top-row">
             <div class="form-group">
                 <label for="length">Lungime</label>
@@ -40,7 +39,6 @@
             </div>
         </div>
 
-        <!-- Rândul de jos: 4 checkbox + buton, toate cu aceeaşi lăţime -->
         <div class="bottom-row">
             <label class="checkbox-option">
                 <input type="checkbox" name="lowercase" checked>

@@ -4,7 +4,6 @@
     <h2>Generator de Matrici</h2>
 
     <form id="generateForm" class="matrix-generator-form">
-        <!-- Rândul de sus: 3 câmpuri pe un rând -->
         <div class="top-row">
             <div class="form-group">
                 <label for="rows">Rânduri</label>
@@ -43,7 +42,6 @@
             </div>
         </div>
 
-        <!-- Rândul de jos: 2 câmpuri + buton -->
         <div class="bottom-row">
             <div class="form-group">
                 <label for="max">Valoare maximă</label>

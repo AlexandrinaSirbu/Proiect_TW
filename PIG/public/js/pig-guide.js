@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-
+    // Pig Guide Configuration
     const pigGuide = {
         elements: {
             pig: document.createElement('div'),
@@ -17,10 +17,11 @@ document.addEventListener('DOMContentLoaded', function() {
         currentTab: null,
 
         init: function() {
+            // Create pig element
             this.elements.pig.id = 'pig-guide';
             this.elements.pig.innerHTML = '<img src="/PIG/public/images/img.png" alt="PIG Guide">';
 
-            
+            // Create speech bubble
             this.elements.bubble.id = 'pig-bubble';
             this.elements.closeBtn.id = 'close-pig-guide';
             this.elements.closeBtn.textContent = '×';
@@ -34,15 +35,15 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.appendChild(this.elements.pig);
             document.body.appendChild(this.elements.bubble);
 
-            
+            // Set initial message based on current page
             this.detectCurrentTab();
             this.updateMessage();
 
-            
+            // Add hover/animation effects
             this.elements.pig.addEventListener('click', () => this.toggleBubble());
             this.animatePig();
 
-           
+            // Make draggable
             this.makeDraggable(this.elements.pig);
 
             this.makeResponsive();
@@ -54,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const pigElement = this.elements.pig;
             const bubbleElement = this.elements.bubble;
 
-           
+            // Hide completely on small screens
             if (screenWidth < 768) {
                 pigElement.style.display = 'none';
                 bubbleElement.style.display = 'none';
@@ -63,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 pigElement.style.display = 'block';
             }
 
-           
+            // Adjust for medium screens
             if (screenWidth < 1024) {
                 pigElement.style.width = '120px';
                 pigElement.style.height = '133px';
@@ -71,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 bubbleElement.style.right = '5px';
                 bubbleElement.style.bottom = '160px';
             } else {
+                // Reset to default for large screens
                 pigElement.style.width = '180px';
                 pigElement.style.height = '200px';
                 bubbleElement.style.width = '200px';
@@ -78,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 bubbleElement.style.bottom = '250px';
             }
 
-            
+            // Ensure bubble stays visible in viewport
             const bubbleRect = bubbleElement.getBoundingClientRect();
             if (bubbleRect.left < 0) {
                 bubbleElement.style.left = '10px';
@@ -114,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const rotation = Math.sin(angle * Math.PI / 180) * 5;
                 this.elements.pig.style.transform = `rotate(${rotation}deg)`;
 
-                
+                // Gentle bounce
                 const bounce = Math.abs(Math.sin(angle * Math.PI / 90)) * 5;
                 this.elements.pig.style.bottom = `${30 + bounce}px`;
             }, 50);
@@ -144,11 +146,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 pos3 = e.clientX;
                 pos4 = e.clientY;
 
-               
+                // Move both pig and bubble together
                 pig.style.top = (pig.offsetTop - pos2) + "px";
                 pig.style.left = (pig.offsetLeft - pos1) + "px";
 
-                
+                // Calculate bubble position relative to pig
                 const pigRect = pig.getBoundingClientRect();
                 bubble.style.right = (window.innerWidth - pigRect.right + 10) + "px";
                 bubble.style.bottom = (window.innerHeight - pigRect.top + 20) + "px";
@@ -160,11 +162,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     };
-   
+    // Initialize the pig guide
     pigGuide.init();
 });
 
-
+// Mobile menu toggle
 document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.querySelector('.menu-toggle');
     const nav = document.querySelector('nav');
@@ -176,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    
+    // Close menu when clicking on a link (optional)
     document.querySelectorAll('nav a').forEach(link => {
         link.addEventListener('click', function() {
             if (window.innerWidth <= 768) {

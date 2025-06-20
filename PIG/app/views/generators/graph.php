@@ -4,7 +4,6 @@
     <h2>Generator de Grafuri</h2>
 
     <form id="generateGraphForm" class="graph-generator-form">
-        <!-- TOP ROW: 3 câmpuri pe un rând -->
         <div class="top-row">
             <div class="form-group">
                 <label for="nodes">Număr de noduri</label>
@@ -42,7 +41,6 @@
             </div>
         </div>
 
-        <!-- BOTTOM ROW: 3 checkbox + buton egal spațiu -->
         <div class="bottom-row">
             <label class="checkbox-option">
                 <input type="checkbox" name="conex" value="1">

@@ -5,14 +5,15 @@ class AuthController
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = trim($_POST['username'] ?? '');
+            $username = htmlspecialchars(trim($_POST['username'] ?? ''), ENT_QUOTES, 'UTF-8');
             $password = $_POST['password'] ?? '';
 
-            $user = User::findByUsername($username);
+            $user = User::findByUsername($username); 
 
             if ($user && password_verify($password, $user['password_hash'])) {
+                session_start();
                 $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['username']; 
+                $_SESSION['username'] = htmlspecialchars($user['username'], ENT_QUOTES, 'UTF-8');
                 header('Location: /PIG/public');
                 exit;
             } else {
@@ -26,13 +27,13 @@ class AuthController
     public function register()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = trim($_POST['username'] ?? '');
+            $username = htmlspecialchars(trim($_POST['username'] ?? ''), ENT_QUOTES, 'UTF-8');
             $password = $_POST['password'] ?? '';
 
             if (User::exists($username)) {
                 $error = "Username deja folosit";
             } else {
-                User::create($username, $password);
+                User::create($username, $password); 
                 header('Location: /PIG/public/login');
                 exit;
             }
@@ -42,20 +43,19 @@ class AuthController
     }
 
     public function logout()
-{
-    session_start();
-    $_SESSION = [];
-    if (ini_get("session.use_cookies")) {
-        $params = session_get_cookie_params();
-        setcookie(session_name(), '', time() - 42000,
-            $params["path"], $params["domain"],
-            $params["secure"], $params["httponly"]
-        );
+    {
+        session_start();
+        $_SESSION = [];
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+        session_destroy();
+
+        header('Location: /PIG/public/login');
+        exit;
     }
-    session_destroy();
-
-    header('Location: /PIG/public/login');
-    exit;
-}
-
 }

@@ -23,7 +23,7 @@
   box-sizing: border-box;
 }
 
-
+/* Layout Fixes */
 html, body {
   height: 100%;
 }
@@ -47,7 +47,7 @@ main {
   padding: 0 1rem;
 }
 
-
+/* Header Styles */
 header {
   background-color: var(--primary);
   color: white;
@@ -72,7 +72,7 @@ header h1 {
   padding: 0.5rem 0;
 }
 
-
+/* Navigation */
 nav {
   width: 100%;
 }
@@ -107,7 +107,7 @@ nav ul li a.active {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-
+/* Mobile Menu Toggle */
 .menu-toggle {
   display: none;
   background: none;
@@ -118,7 +118,7 @@ nav ul li a.active {
   padding: 0.5rem;
 }
 
-
+/* Responsive Adjustments */
 @media (max-width: 1024px) {
   header h1 {
     font-size: 1.5rem;
@@ -178,7 +178,7 @@ nav ul li a.active {
 }
 
 
-
+/* ===== GENERATOR CONTAINER ===== */
 .generator-container {
   background-color: white;
   border-radius: var(--border-radius);
@@ -194,8 +194,8 @@ nav ul li a.active {
   color: var(--text);
 }
 
-
-
+/* ===== UNIVERSAL FORM STYLES ===== */
+/* Common styles for all generator forms */
 .number-generator-form,
 .matrix-generator-form,
 .graph-generator-form,
@@ -203,7 +203,7 @@ nav ul li a.active {
   width: 100%;
 }
 
-
+/* Top row: Always 3 equal columns */
 .number-generator-form .top-row,
 .matrix-generator-form .top-row,
 .graph-generator-form .top-row,
@@ -214,7 +214,7 @@ nav ul li a.active {
   margin-bottom: var(--form-gap);
 }
 
-
+/* Form groups - consistent styling */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -227,7 +227,7 @@ nav ul li a.active {
   font-size: 0.95rem;
 }
 
-
+/* Form controls - consistent sizing */
 .form-control {
   width: 100%;
   padding: var(--input-padding);
@@ -236,7 +236,7 @@ nav ul li a.active {
   font-size: 1rem;
   transition: border-color 0.2s, box-shadow 0.2s;
   background-color: white;
-  min-height: 48px; 
+  min-height: 48px; /* Ensures consistent height */
 }
 
 .form-control:focus {
@@ -245,8 +245,9 @@ nav ul li a.active {
   box-shadow: 0 0 0 2px rgba(223, 125, 144, 0.2);
 }
 
+/* ===== BOTTOM ROW LAYOUTS ===== */
 
-
+/* Numbers Generator: Select + Button (2 columns, button smaller) */
 .number-generator-form .bottom-row {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -255,7 +256,7 @@ nav ul li a.active {
   margin-bottom: var(--form-gap);
 }
 
-
+/* Matrix Generator: Input + Select + Button (equal columns) */
 .matrix-generator-form .bottom-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -264,7 +265,7 @@ nav ul li a.active {
   margin-bottom: var(--form-gap);
 }
 
-
+/* Graph Generator: 3 Checkboxes + Button (equal columns) */
 .graph-generator-form .bottom-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -273,7 +274,7 @@ nav ul li a.active {
   margin-bottom: var(--form-gap);
 }
 
-
+/* String Generator: 4 Checkboxes + Button (equal columns) */
 .string-generator-form .bottom-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -282,7 +283,7 @@ nav ul li a.active {
   margin-bottom: var(--form-gap);
 }
 
-
+/* ===== CHECKBOX STYLING ===== */
 .checkbox-option {
   display: flex;
   align-items: center;
@@ -295,10 +296,10 @@ nav ul li a.active {
   cursor: pointer;
   transition: all 0.2s;
   text-align: center;
-  height: 48px; 
-  font-size: 0.9rem; 
-  line-height: 1.2; 
-  overflow: hidden; 
+  height: 48px; /* Fixed height instead of min-height */
+  font-size: 0.9rem; /* Slightly smaller font */
+  line-height: 1.2; /* Tighter line height */
+  overflow: hidden; /* Prevent text overflow */
 }
 
 .checkbox-option:hover {
@@ -311,12 +312,13 @@ nav ul li a.active {
   flex-shrink: 0;
 }
 
-
+/* ===== BUTTON STYLING ===== */
 .form-actions {
   width: 100%;
   display: flex;
   align-items: end;
 }
+
 .btn {
   display: inline-block;
   width: 100%;
@@ -328,7 +330,7 @@ nav ul li a.active {
   border-radius: var(--border-radius);
   cursor: pointer;
   transition: all 0.2s;
-  min-height: 48px; 
+  min-height: 48px; /* Match form control height */
   text-decoration: none;
 }
 
@@ -342,7 +344,7 @@ nav ul li a.active {
   transform: translateY(-1px);
 }
 
-
+/* ===== RESULTS STYLING ===== */
 .results-container {
   display: flex;
   flex-wrap: wrap;
@@ -380,7 +382,7 @@ nav ul li a.active {
   min-height: 60px;
 }
 
-
+/* ===== GRAPH VISUALIZATION ===== */
 .svg-container {
   flex: 1;
   min-width: 300px;
@@ -400,7 +402,7 @@ nav ul li a.active {
   max-width: 100%;
 }
 
-
+/* ===== ALERT STYLES ===== */
 .alert {
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
@@ -414,7 +416,7 @@ nav ul li a.active {
   color: var(--info);
 }
 
-
+/* ===== FOOTER ===== */
 footer {
   text-align: center;
   padding: 2rem;
@@ -423,8 +425,9 @@ footer {
   margin-top: auto;
 }
 
-
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
+  /* Stack top row vertically on mobile */
   .number-generator-form .top-row,
   .matrix-generator-form .top-row,
   .graph-generator-form .top-row,
@@ -433,7 +436,7 @@ footer {
     gap: 1rem;
   }
 
-
+  /* Adjust bottom rows for mobile */
   .number-generator-form .bottom-row {
     grid-template-columns: 1fr;
   }
@@ -452,7 +455,7 @@ footer {
     gap: 0.75rem;
   }
 
-
+  /* Adjust containers */
   .results-container {
     flex-direction: column;
   }
@@ -462,7 +465,7 @@ footer {
     min-width: unset;
   }
 
-
+  /* Header adjustments */
   header {
     padding: 1rem;
   }
@@ -480,7 +483,7 @@ footer {
     font-size: 0.9rem;
   }
 
- 
+  /* Container padding */
   .generator-container {
     padding: 1.5rem;
   }
@@ -492,10 +495,12 @@ footer {
 }
 
 @media (max-width: 480px) {
+  /* Extra small screens */
   .generator-container {
     padding: 1rem;
   }
 
+  /* Adjust checkbox text for mobile */
   .checkbox-option {
     padding: 0.5rem 0.25rem;
     font-size: 0.85rem;
@@ -512,8 +517,7 @@ footer {
   }
 }
 
-
-
+/* ===== AUTH PAGES (Optional Enhancement) ===== */
 .auth-container {
   display: flex;
   justify-content: center;
@@ -569,11 +573,11 @@ footer {
   text-decoration: underline;
 }
 
-
+/* Pig Guide Styles - Responsive */
 @media (max-width: 1024px) {
   #pig-guide {
     width: 120px;
-    height: 133px; 
+    height: 133px; /* Maintains aspect ratio */
     right: 10px;
     bottom: 20px;
   }
@@ -587,10 +591,10 @@ footer {
 
 @media (max-width: 768px) {
   #pig-guide {
-    display: none; 
+    display: none; /* Hide completely on small screens */
   }
 }
-
+/* Pig Guide Styles */
 #pig-guide {
   position: fixed;
   right: 20px;
@@ -685,6 +689,8 @@ footer {
 
 
 
+
+/* Pig animation */
 @keyframes pigBounce {
   0%, 100% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-10px) rotate(5deg); }

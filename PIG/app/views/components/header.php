@@ -33,6 +33,10 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
                 <li>
                     <a href="<?= $basePath ?>/generate/string" class="<?= strpos($currentPath, '/string') !== false ? 'active' : '' ?>">Șiruri de caractere</a>
                 </li>
+                <li>
+                    <a href="<?= $basePath ?>/docs/doc" class="<?= strpos($currentPath, '/docs') !== false ? 'active' : '' ?>">Documentation</a>
+                </li>
+                
 
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <li>
