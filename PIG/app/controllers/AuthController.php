@@ -12,6 +12,7 @@ class AuthController
 
             if ($user && password_verify($password, $user['password_hash'])) {
                 $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['username']; 
                 header('Location: /PIG/public');
                 exit;
             } else {
@@ -41,9 +42,20 @@ class AuthController
     }
 
     public function logout()
-    {
-        session_destroy();
-        header('Location: /');
-        exit;
+{
+    session_start();
+    $_SESSION = [];
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
     }
+    session_destroy();
+
+    header('Location: /PIG/public/login');
+    exit;
+}
+
 }

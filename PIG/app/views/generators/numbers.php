@@ -1,33 +1,69 @@
 <?php include VIEW . '/components/header.php'; ?>
 
-<h2>Generator de Șiruri</h2>
+<div class="generator-container">
+    <h2>Generator de Șiruri</h2>
 
-<form id="generateForm">
-  <label>Lungime:</label>
-  <input type="number" name="length" value="10" required><br>
+    <form id="generateForm" class="number-generator-form">
+        <!-- RÂNDUL DE SUS: 3 câmpuri egale -->
+        <div class="top-row">
+            <div class="form-group">
+                <label for="length">Lungime</label>
+                <input
+                        type="number"
+                        id="length"
+                        name="length"
+                        class="form-control"
+                        value="10"
+                        required
+                >
+            </div>
+            <div class="form-group">
+                <label for="min">Valoare minimă</label>
+                <input
+                        type="number"
+                        id="min"
+                        name="min"
+                        class="form-control"
+                        value="0"
+                        required
+                >
+            </div>
+            <div class="form-group">
+                <label for="max">Valoare maximă</label>
+                <input
+                        type="number"
+                        id="max"
+                        name="max"
+                        class="form-control"
+                        value="100"
+                        required
+                >
+            </div>
+        </div>
 
-  <label>Min:</label>
-  <input type="number" name="min" value="0" required><br>
+        <!-- RÂNDUL DE JOS: select + buton -->
+        <div class="bottom-row">
+            <div class="form-group">
+                <label for="sort">Sortare</label>
+                <select id="sort" name="sort" class="form-control">
+                    <option value="none">Nesortat</option>
+                    <option value="asc">Crescător</option>
+                    <option value="desc">Descrescător</option>
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    Generează
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
 
-  <label>Max:</label>
-  <input type="number" name="max" value="100" required><br>
-
-  <label>Sortare:</label>
-  <select name="sort">
-    <option value="none">Nesortat</option>
-    <option value="asc">Crescător</option>
-    <option value="desc">Descrescător</option>
-  </select><br>
-
-  <button type="submit">Generează</button>
-</form>
-
-<div id="resultBox" style="margin-top: 20px;">
-  <h3>Rezultat:</h3>
-  <div id="result"></div>
+<div class="result-container">
+    <h3 class="result-title">Rezultat</h3>
+    <div id="result" class="result-pre"></div>
 </div>
 
 <script src="/PIG/public/js/numbers.js"></script>
-
-
 <?php include VIEW . '/components/footer.php'; ?>

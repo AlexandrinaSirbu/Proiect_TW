@@ -1,5 +1,4 @@
 <?php
-
 class GeneratorController
 {
     public function numbers()
@@ -135,56 +134,84 @@ class GeneratorController
     }
 
     public function graph()
-{
-    include VIEW . '/generators/graph.php';
-}
-
-public function graphAjax()
-{
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        http_response_code(405);
-        echo json_encode(['error' => 'POST required']);
-        return;
+    {
+        include VIEW . '/generators/graph.php';
     }
 
-    $nodes = (int)($_POST['nodes'] ?? 5);
-    $edges = (int)($_POST['edges'] ?? 6);
-    $type = $_POST['type'] ?? 'undirected';
+    public function graphAjax()
+    {
+        error_log("POST raw: " . print_r($_POST, true));
 
-    $graph = [];
-
-    $existingEdges = [];
-
-    while (count($graph) < $edges) {
-        $from = rand(0, $nodes - 1);
-        $to = rand(0, $nodes - 1);
-
-        if ($from === $to) continue; // evită auto-muchii
-
-        // Sortare pentru a evita dubluri (ex: (1,2) == (2,1) la neorientat)
-        $key = $type === 'undirected'
-            ? implode('-', [min($from, $to), max($from, $to)])
-            : "$from-$to";
-
-        if (isset($existingEdges[$key])) continue;
-
-        $existingEdges[$key] = true;
-
-        if ($type === 'weighted') {
-            $weight = rand(1, 10);
-            $graph[] = [$from, $to, $weight];
-        } else {
-            $graph[] = [$from, $to];
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['error' => 'POST required']);
+            return;
         }
+
+        $nodes = (int)($_POST['nodes'] ?? 5);
+        $edges = (int)($_POST['edges'] ?? 6);
+        $type = $_POST['type'] ?? 'undirected';
+
+        $bipartit = isset($_POST['bipartit']);
+        $conex = isset($_POST['conex']);
+        $arbore = isset($_POST['arbore']);
+
+        require_once MODEL . '/GraphUtils.php';
+
+        $attempts = 0;
+        $maxAttempts = 1000;
+
+        do {
+            $graph = [];
+            $existingEdges = [];
+
+            while (count($graph) < $edges) {
+                $from = rand(0, $nodes - 1);
+                $to = rand(0, $nodes - 1);
+
+                if ($from === $to) continue;
+
+                $key = $type === 'undirected'
+                    ? implode('-', [min($from, $to), max($from, $to)])
+                    : "$from-$to";
+
+                if (isset($existingEdges[$key])) continue;
+
+                $existingEdges[$key] = true;
+
+                if ($type === 'weighted') {
+                    $weight = rand(1, 10);
+                    $graph[] = [$from, $to, $weight];
+                } else {
+                    $graph[] = [$from, $to];
+                }
+            }
+
+            $valid = true;
+            if ($conex && !GraphUtils::isConnected($graph, $nodes)) $valid = false;
+            if ($bipartit && !GraphUtils::isBipartite($graph, $nodes)) $valid = false;
+            if ($arbore && !GraphUtils::isTree($graph, $nodes)) $valid = false;
+
+            $attempts++;
+        } while (!$valid && $attempts < $maxAttempts);
+
+        if (isset($_SESSION['user_id'])) {
+            require_once MODEL . '/GeneratedInput.php';
+            GeneratedInput::save($_SESSION['user_id'], 'graph', json_encode($graph));
+        }
+
+        $results = [
+            'edges' => $graph,
+            'isConnected' => GraphUtils::isConnected($graph, $nodes),
+            'isBipartite' => GraphUtils::isBipartite($graph, $nodes),
+            'isTree' => GraphUtils::isTree($graph, $nodes),
+            'adjacencyMatrix' => GraphUtils::adjacencyMatrix($graph, $nodes),
+            'parentVector' => GraphUtils::parentVector($graph, $nodes)
+        ];
+
+        header('Content-Type: application/json');
+        ob_clean();
+        echo json_encode($results);
+        exit;
     }
-
-    if (isset($_SESSION['user_id'])) {
-        require_once MODEL . '/GeneratedInput.php';
-        GeneratedInput::save($_SESSION['user_id'], 'graph', json_encode($graph));
-    }
-
-    header('Content-Type: application/json');
-    echo json_encode($graph);
-}
-
 }

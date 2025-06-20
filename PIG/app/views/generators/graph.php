@@ -1,50 +1,89 @@
 <?php include VIEW . '/components/header.php'; ?>
 
-<h2>Generator de Grafuri</h2>
+<div class="generator-container">
+    <h2>Generator de Grafuri</h2>
 
-<form id="generateGraphForm">
-  <label>Număr de noduri:</label>
-  <input type="number" name="nodes" value="5" min="2" required><br>
+    <form id="generateGraphForm" class="graph-generator-form">
+        <!-- TOP ROW: 3 câmpuri pe un rând -->
+        <div class="top-row">
+            <div class="form-group">
+                <label for="nodes">Număr de noduri</label>
+                <input
+                        type="number"
+                        id="nodes"
+                        name="nodes"
+                        class="form-control"
+                        value="5"
+                        min="2"
+                        required
+                >
+            </div>
 
-  <label>Număr de muchii:</label>
-  <input type="number" name="edges" value="6" min="1" required><br>
+            <div class="form-group">
+                <label for="edges">Număr de muchii</label>
+                <input
+                        type="number"
+                        id="edges"
+                        name="edges"
+                        class="form-control"
+                        value="6"
+                        min="1"
+                        required
+                >
+            </div>
 
-  <label>Tip graf:</label>
-  <select name="type">
-    <option value="undirected">Neorientat</option>
-    <option value="directed">Orientat</option>
-    <option value="weighted">Ponderat</option>
-  </select><br>
+            <div class="form-group">
+                <label for="type">Tip graf</label>
+                <select id="type" name="type" class="form-control">
+                    <option value="undirected">Neorientat</option>
+                    <option value="directed">Orientat</option>
+                    <option value="weighted">Ponderat</option>
+                </select>
+            </div>
+        </div>
 
-  <label>Proprietăți graf:</label>
-<div>
-  <label><input type="checkbox" name="properties[]" value="conex"> Conex</label>
-  <label><input type="checkbox" name="properties[]" value="bipartit"> Bipartit</label>
-  <label><input type="checkbox" name="properties[]" value="arbore"> Arbore</label>
+        <!-- BOTTOM ROW: 3 checkbox + buton egal spațiu -->
+        <div class="bottom-row">
+            <label class="checkbox-option">
+                <input type="checkbox" name="conex" value="1">
+                Conex
+            </label>
+            <label class="checkbox-option">
+                <input type="checkbox" name="bipartit" value="1">
+                Bipartit
+            </label>
+            <label class="checkbox-option">
+                <input type="checkbox" name="arbore" value="1">
+                Arbore
+            </label>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    Generează
+                </button>
+            </div>
+        </div>
+    </form>
 </div>
 
-<label>Format rezultat:</label>
-<select name="output_format">
-  <option value="list">Listă de muchii</option>
-  <option value="matrix">Matrice de adiacență</option>
-  <option value="parents">Vectori de tați</option>
-</select>
-
-
-  <button type="submit">Generează</button>
-</form>
-
-<div id="resultBox" style="margin-top: 20px;">
-  <h3>Rezultat:</h3>
-  <pre id="graphResult" style="font-family: monospace;"></pre>
+<div class="results-container">
+    <div class="result-container">
+        <h3 class="result-title">Rezultat</h3>
+        <pre id="graphResult" class="result-pre"></pre>
+    </div>
+    <div class="svg-container">
+        <h3 class="result-title">Reprezentare grafică</h3>
+        <div id="graphMessage" class="alert alert-info" style="display: none;">
+            Reprezentarea grafică nu este afișată pentru grafurile cu mai mult de 10 noduri.
+        </div>
+        <svg
+                id="graphSvg"
+                width="500"
+                height="500"
+                viewBox="0 0 500 500"
+                style="background-color: white; border-radius: var(--border-radius);"
+        ></svg>
+    </div>
 </div>
-
-<div id="graphSvgBox" style="margin-top: 20px;">
-  <h3>Reprezentare grafică:</h3>
-  <svg id="graphSvg" width="500" height="500"></svg>
-</div>
-
 
 <script src="/PIG/public/js/graphs.js"></script>
-
 <?php include VIEW . '/components/footer.php'; ?>

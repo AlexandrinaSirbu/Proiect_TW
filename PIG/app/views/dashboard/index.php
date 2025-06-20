@@ -1,12 +1,12 @@
 <?php include VIEW . '/components/header.php'; ?>
-<h1>Bine ai venit!</h1>
-    <p>ID-ul tău este: 
-        <?php
-        if (isset($_SESSION['user_id'])) {
-            echo htmlspecialchars($_SESSION['user_id']);
-        } else {
-            echo "Neautentificat";
-        }
-        ?>
-    </p>
+
+<div class="welcome-banner">
+    <?php if (isset($_SESSION['username'])): ?>
+        <h2>Bine ai venit, <?= htmlspecialchars($_SESSION['username']) ?>!</h2>
+    <?php else: ?>
+        <h2>Bine ai venit, oaspete!</h2>
+    <?php endif; ?>
+</div>
+
+
 <?php include VIEW . '/components/footer.php'; ?>

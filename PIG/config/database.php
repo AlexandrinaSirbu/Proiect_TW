@@ -10,7 +10,7 @@ class Database
             $host = 'localhost';
             $dbname = 'pig';
             $username = 'root';
-            $password = ''; 
+            $password = '1234'; 
 
             try {
                 self::$connection = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);

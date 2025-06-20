@@ -1,3 +1,4 @@
+//strings.js
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("#generateForm");
     const resultDiv = document.querySelector("#result");
